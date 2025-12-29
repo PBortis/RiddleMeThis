@@ -1,0 +1,19 @@
+{
+  "name": "riddlemethis",
+  "version": "1.0.0",
+  "description": "Daily AI-generated riddles with leaderboard",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["riddle", "ai", "game", "leaderboard"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  }
+}
