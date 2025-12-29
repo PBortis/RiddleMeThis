@@ -81,6 +81,16 @@ RiddleMeThis/
 - **Frontend**: HTML, CSS, JavaScript (Vanilla)
 - **Data Storage**: JSON file-based storage
 
+## Production Considerations
+
+This is a demonstration application. For production use, consider adding:
+- Rate limiting for API endpoints
+- User authentication and session management
+- Database instead of JSON file storage
+- Input validation and sanitization
+- HTTPS/SSL certificates
+- Error logging and monitoring
+
 ## Future Enhancements
 
 - Integration with OpenAI API for truly AI-generated riddles
