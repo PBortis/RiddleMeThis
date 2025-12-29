@@ -8,12 +8,16 @@
     "start": "node server.js",
     "dev": "node server.js"
   },
-  "keywords": ["riddle", "ai", "game", "leaderboard"],
+  "keywords": [
+    "riddle",
+    "ai",
+    "game",
+    "leaderboard"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
     "express": "^5.2.1"
   }
 }

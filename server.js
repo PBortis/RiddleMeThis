@@ -50,7 +50,7 @@ function getTodayDate() {
   return new Date().toISOString().split('T')[0];
 }
 
-// Generate riddle using a simple algorithm (can be replaced with AI API)
+// Generate riddle from a predefined set based on date
 function generateRiddle(date) {
   const riddles = [
     {
@@ -153,16 +153,21 @@ app.post('/api/riddle/answer', (req, res) => {
     }
     
     // Check if user already solved today's riddle
-    const alreadySolved = user.history.some(h => h.riddleId === riddleId);
+    const historyEntry = user.history.find(h => h.riddleId === riddleId);
     
-    if (!alreadySolved) {
+    if (!historyEntry) {
+      // First time solving this riddle
       user.solved += 1;
       user.history.push({
         riddleId,
         date: new Date().toISOString(),
         mistakes: 0
       });
+    } else if (historyEntry.mistakes > 0) {
+      // User had mistakes but now solved it
+      user.solved += 1;
     }
+    // If historyEntry exists with 0 mistakes, user already solved it (do nothing)
     
     writeData(data);
   } else {
@@ -174,16 +179,26 @@ app.post('/api/riddle/answer', (req, res) => {
         username,
         solved: 0,
         totalMistakes: 1,
-        history: []
+        history: [{
+          riddleId,
+          date: new Date().toISOString(),
+          mistakes: 1
+        }]
       };
       data.leaderboard.push(user);
     } else {
       user.totalMistakes += 1;
       
-      // Update history for today's riddle
+      // Update or create history entry for today's riddle
       const historyEntry = user.history.find(h => h.riddleId === riddleId);
       if (historyEntry) {
         historyEntry.mistakes += 1;
+      } else {
+        user.history.push({
+          riddleId,
+          date: new Date().toISOString(),
+          mistakes: 1
+        });
       }
     }
     
