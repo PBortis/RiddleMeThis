@@ -3,442 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riddle Me This - Daily Riddles</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-        }
-
-        h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .subtitle {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .riddle-section {
-            min-height: 300px;
-        }
-
-        .riddle-section h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .riddle-text {
-            font-size: 1.3em;
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 5px solid #667eea;
-        }
-
-        .hints {
-            margin: 20px 0;
-            padding: 15px;
-            background: #fff9e6;
-            border-radius: 8px;
-            border-left: 4px solid #ffc107;
-        }
-
-        .hints h3 {
-            color: #f57c00;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .hints ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .hints li {
-            padding: 5px 0;
-            color: #666;
-        }
-
-        .hints li:before {
-            content: "💡 ";
-        }
-
-        .user-input {
-            margin-bottom: 20px;
-        }
-
-        .user-input label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 600;
-        }
-
-        .user-input input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        .user-input input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1em;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-            display: none;
-        }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
-        }
-
-        .leaderboard-section h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .leaderboard {
-            list-style: none;
-        }
-
-        .leaderboard li {
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.2s;
-        }
-
-        .leaderboard li:hover {
-            transform: translateX(5px);
-            background: #e9ecef;
-        }
-
-        .leaderboard li:nth-child(1) {
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            font-weight: bold;
-        }
-
-        .leaderboard li:nth-child(2) {
-            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
-        }
-
-        .leaderboard li:nth-child(3) {
-            background: linear-gradient(135deg, #cd7f32 0%, #e8a87c 100%);
-        }
-
-        .player-name {
-            font-size: 1.1em;
-            font-weight: 600;
-        }
-
-        .player-stats {
-            text-align: right;
-        }
-
-        .stat-label {
-            font-size: 0.85em;
-            color: #666;
-        }
-
-        .stat-value {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .date-badge {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-        }
-
-        .emoji {
-            font-size: 1.5em;
-            margin-right: 5px;
-        }
-    </style>
+    <title>Riddle Me This</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🎭 Riddle Me This</h1>
-            <p class="subtitle">Daily Riddles - Challenge Your Mind!</p>
+            <h1>Riddle Me This</h1>
+            <p class="subtitle">Challenge Your Mind</p>
         </header>
 
-        <div class="main-content">
-            <div class="card riddle-section">
-                <div class="date-badge" id="dateDisplay">Loading...</div>
-                <h2>Today's Riddle</h2>
-                <div id="riddleContent" class="loading">Loading riddle...</div>
+        <!-- Welcome Screen -->
+        <div class="card" id="welcomeScreen">
+            <div style="text-align: center; padding: 40px 20px;">
+                <h2>🎮 Welcome to Riddle Me This!</h2>
+                <p style="margin: 20px 0; color: #666; font-size: 1.1em;">Enter your name to start playing riddles and compete on the leaderboard!</p>
                 
-                <div id="riddleInteraction" style="display: none;">
-                    <div class="riddle-text" id="riddleQuestion"></div>
-                    
-                    <div class="hints" id="hintsSection">
-                        <h3>Hints:</h3>
-                        <ul id="hintsList"></ul>
-                    </div>
-
-                    <div class="user-input">
-                        <label for="username">Your Name:</label>
-                        <input type="text" id="username" placeholder="Enter your name" />
-                    </div>
-
-                    <div class="user-input">
-                        <label for="answer">Your Answer:</label>
-                        <input type="text" id="answer" placeholder="Enter your answer" />
-                    </div>
-
-                    <button onclick="submitAnswer()">Submit Answer</button>
-
-                    <div id="message" class="message"></div>
+                <div class="user-input" style="max-width: 300px; margin: 30px auto;">
+                    <label for="playerName">Your Name:</label>
+                    <input type="text" id="playerName" placeholder="Enter your name" style="text-align: center; font-size: 1.1em;" />
                 </div>
+                
+                <button onclick="startGame();" id="startBtn">🚀 Start Playing!</button>
+                
+                <div id="nameError" class="message error" style="display: none; margin-top: 15px;"></div>
             </div>
+        </div>
 
-            <div class="card leaderboard-section">
-                <h2>🏆 Leaderboard</h2>
-                <ul id="leaderboard" class="leaderboard">
-                    <li class="loading">Loading leaderboard...</li>
-                </ul>
+        <!-- Game Content -->
+        <div id="gameContent" style="display: none;">
+            <div class="game-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <!-- Riddle Section -->
+                <div class="card">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="display: inline-block; background: #667eea; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9em;" id="dateDisplay">🧩 Loading Riddle...</div>
+                    </div>
+                    
+                    <div id="riddleContent" style="text-align: center; color: #666; padding: 40px;">Loading riddle...</div>
+                    
+                    <div id="riddleInteraction" style="display: none;">
+                        <div style="font-size: 1.3em; line-height: 1.6; color: #333; margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #667eea;" id="riddleQuestion"></div>
+                        
+                        <div style="text-align: center; margin: 15px 0; padding: 10px; background: #f0f8ff; border-radius: 10px; border: 2px solid #667eea;">
+                            <h3 style="margin: 0; color: #667eea;">🎯 Current Points: <span id="currentPoints">25</span></h3>
+                            <p style="margin: 5px 0; font-size: 0.9em; color: #666;">Wrong answers: -5 points each</p>
+                        </div>
+                        
+                        <div style="margin: 30px auto; padding: 20px; background: #fff9e6; border-radius: 10px; border-left: 4px solid #ffc107; text-align: center; max-width: 90%;" id="hintsSection">
+                            <h3 style="color: #f57c00; margin-bottom: 10px; font-size: 1.1em;">Hints:</h3>
+                            <ul id="hintsList" style="list-style: none; padding-left: 0;"></ul>
+                            <div id="hintButtons"></div>
+                        </div>
+
+                        <div class="user-input">
+                            <label for="answer">Your Answer:</label>
+                            <input type="text" id="answer" placeholder="Enter your answer" />
+                        </div>
+
+                        <button onclick="submitAnswer()">Submit Answer</button>
+                        <div id="message" class="message"></div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard Section -->
+                <div class="card">
+                    <h2 style="color: #667eea; margin-bottom: 20px; font-size: 1.8em; text-align: center;">🏆 Leaderboard</h2>
+                    <ul id="leaderboard" style="list-style: none;">
+                        <li style="text-align: center; color: #999; padding: 20px;">Loading leaderboard...</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        let currentRiddle = null;
-
-        async function loadTodayRiddle() {
-            try {
-                const response = await fetch('/api/riddle/today');
-                const riddle = await response.json();
-                currentRiddle = riddle;
-
-                const date = new Date(riddle.date);
-                document.getElementById('dateDisplay').textContent = 
-                    `📅 ${date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
-                
-                document.getElementById('riddleQuestion').textContent = riddle.question;
-                
-                const hintsList = document.getElementById('hintsList');
-                hintsList.innerHTML = '';
-                riddle.hints.forEach(hint => {
-                    const li = document.createElement('li');
-                    li.textContent = hint;
-                    hintsList.appendChild(li);
-                });
-
-                document.getElementById('riddleContent').style.display = 'none';
-                document.getElementById('riddleInteraction').style.display = 'block';
-            } catch (error) {
-                console.error('Error loading riddle:', error);
-                document.getElementById('riddleContent').textContent = 'Error loading riddle. Please refresh the page.';
-            }
-        }
-
-        async function loadLeaderboard() {
-            try {
-                const response = await fetch('/api/leaderboard');
-                const leaderboard = await response.json();
-
-                const leaderboardElement = document.getElementById('leaderboard');
-                leaderboardElement.innerHTML = '';
-
-                if (leaderboard.length === 0) {
-                    leaderboardElement.innerHTML = '<li style="text-align: center; color: #999;">No players yet. Be the first!</li>';
-                    return;
-                }
-
-                leaderboard.slice(0, 10).forEach((player, index) => {
-                    const li = document.createElement('li');
-                    
-                    const nameDiv = document.createElement('div');
-                    nameDiv.className = 'player-name';
-                    let emoji = '';
-                    if (index === 0) emoji = '🥇 ';
-                    else if (index === 1) emoji = '🥈 ';
-                    else if (index === 2) emoji = '🥉 ';
-                    else emoji = `${index + 1}. `;
-                    nameDiv.textContent = emoji + player.username;
-
-                    const statsDiv = document.createElement('div');
-                    statsDiv.className = 'player-stats';
-                    statsDiv.innerHTML = `
-                        <div><span class="stat-label">Solved:</span> <span class="stat-value">${player.solved}</span></div>
-                        <div><span class="stat-label">Mistakes:</span> <span class="stat-value">${player.totalMistakes}</span></div>
-                    `;
-
-                    li.appendChild(nameDiv);
-                    li.appendChild(statsDiv);
-                    leaderboardElement.appendChild(li);
-                });
-            } catch (error) {
-                console.error('Error loading leaderboard:', error);
-                document.getElementById('leaderboard').innerHTML = 
-                    '<li style="color: #999;">Error loading leaderboard</li>';
-            }
-        }
-
-        async function submitAnswer() {
-            const username = document.getElementById('username').value.trim();
-            const answer = document.getElementById('answer').value.trim();
-            const messageDiv = document.getElementById('message');
-
-            if (!username) {
-                messageDiv.className = 'message error';
-                messageDiv.textContent = 'Please enter your name!';
-                return;
-            }
-
-            if (!answer) {
-                messageDiv.className = 'message error';
-                messageDiv.textContent = 'Please enter an answer!';
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/riddle/answer', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username,
-                        answer,
-                        riddleId: currentRiddle.id
-                    })
-                });
-
-                const result = await response.json();
-
-                if (result.correct) {
-                    messageDiv.className = 'message success';
-                    messageDiv.textContent = '🎉 ' + result.message;
-                    document.getElementById('answer').value = '';
-                    
-                    setTimeout(() => {
-                        loadLeaderboard();
-                    }, 500);
-                } else {
-                    messageDiv.className = 'message error';
-                    messageDiv.textContent = '❌ ' + result.message;
-                }
-            } catch (error) {
-                console.error('Error submitting answer:', error);
-                messageDiv.className = 'message error';
-                messageDiv.textContent = 'Error submitting answer. Please try again.';
-            }
-        }
-
-        document.getElementById('answer').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                submitAnswer();
-            }
-        });
-
-        loadTodayRiddle();
-        loadLeaderboard();
-        setInterval(loadLeaderboard, 10000);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

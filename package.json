@@ -2,11 +2,11 @@
   "name": "riddlemethis",
   "version": "1.0.0",
   "description": "Daily AI-generated riddles with leaderboard",
-  "main": "server.js",
+  "main": "server-mongo.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node server-mongo.js",
+    "dev": "node server-mongo.js"
   },
   "keywords": [
     "riddle",
@@ -18,6 +18,9 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.2.1"
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.1",
+    "openai": "^6.15.0"
   }
 }
